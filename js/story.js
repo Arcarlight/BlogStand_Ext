@@ -126,15 +126,67 @@
     el.portrait.innerHTML = '<img src="' + p.src + '" alt="">';
     // 头像底色的规则：说话人有 color 就用它，否则透明（露出头像本身的底色）
     var img = el.portrait.querySelector('img');
-    if (img) img.style.background = (b.speaker && b.speaker.color) || 'transparent';
+    if (img) img.style.background = speakerOf(b).color || 'transparent';
   }
 
   function clearBox() { boxLines = []; el.text.innerHTML = ''; }
 
+  /* ---------------- 角色与强调色 ----------------
+     角色表在 data.characters；block.speaker 可以只写 { char: 'shinx' }，
+     名字和颜色都从角色表取。正文里用 [1]…[/] 之类的标记切换强调色。 */
+  var EMPH_DEFAULT = { '1': '#f4f824', '2': '#00cdd0', '3': '#00c400', '4': '#efa9ec' };
+
+  function emphColor(n) {
+    var m = data.meta && data.meta.colors && data.meta.colors.emph;
+    if (m && m[n] && m[n].color) return m[n].color;
+    return EMPH_DEFAULT[n] || null;
+  }
+
+  function charById(id) {
+    var list = data.characters || [];
+    for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
+    return null;
+  }
+
+  /* 说话人：优先角色表；没有就退回 block.speaker.name / color（老数据） */
+  function speakerOf(b) {
+    var sp = b.speaker || {};
+    if (sp.char) {
+      var c = charById(sp.char);
+      if (c) {
+        return { name: pick(c.name || {}, 'jp'), color: c.color || '#ffe14d', portrait: c.portrait };
+      }
+    }
+    return {
+      name: sp.name ? pick(sp.name, 'jp') : '',
+      color: sp.color || '#ffe14d',
+      portrait: null,
+    };
+  }
+
+  /* 一行解析成 [{text,color}]，认识 [1]~[4] 开、[/] 收 */
+  function parseRuns(line) {
+    var runs = [];
+    var buf = '';
+    var cur = null;
+    var i = 0;
+    while (i < line.length) {
+      var m = /^\[(\/?)([1-4])?\]/.exec(line.slice(i));
+      if (m) {
+        if (buf) { runs.push({ text: buf, color: cur }); buf = ''; }
+        cur = m[1] ? null : emphColor(m[2]);
+        i += m[0].length;
+        continue;
+      }
+      buf += line[i];
+      i++;
+    }
+    if (buf) runs.push({ text: buf, color: cur });
+    return runs;
+  }
+
   function paintBox() {
-    // 把已定下的行画出来（不含正在打的那一行）
-    // boxLines 里每一项是 { name, text }：name 有值就说明这行开头是说话人，
-    // 重画时必须把它包成 .nm，否则翻到下一页时名字会变回白字（踩过）。
+    // 把已经定下的行重画一遍；boxLines 里每项是 { name, runs }
     el.text.innerHTML = '';
     boxLines.forEach(function (entry, i) {
       if (i) el.text.appendChild(document.createElement('br'));
@@ -144,16 +196,20 @@
         nm.textContent = entry.name;
         el.text.appendChild(nm);
       }
-      el.text.appendChild(document.createTextNode(entry.text));
+      (entry.runs || []).forEach(function (r) {
+        var s = document.createElement('span');
+        if (r.color) s.style.color = r.color;
+        s.textContent = r.text;
+        el.text.appendChild(s);
+      });
     });
   }
 
-  /* 不逐字、直接铺一页（用来补出「本段前面那几页」的上下文：
-     读档、回上一句、翻到段中间时，框里应该有前文，而不是只剩当前这一句） */
+  /* 不逐字、直接铺一页（读档 / 回上一句 / 翻到段中间时补上下文） */
   function appendInstant(b, pg, pageIdx) {
     var lines = toLines(pg);
-    var sp = b.speaker;
-    var name = sp ? pick(sp.name || sp, 'jp') : '';
+    var sp = speakerOf(b);
+    var name = sp.name;
     var total = pages().length;
 
     if (boxLines.length + lines.length > MAX_LINES) clearBox();
@@ -162,16 +218,21 @@
       if (boxLines.length || li) el.text.appendChild(document.createElement('br'));
       var useName = (pageIdx === 0 && li === 0 && name) ? name : null;
       var suffix = (pageIdx === total - 1 && li === lines.length - 1 && name) ? '」' : '';
+      var runs = parseRuns(line + suffix);
       if (useName) {
+        runs = [{ text: '「', color: null }].concat(runs);
         var nm = document.createElement('span');
         nm.className = 'nm';
-        nm.textContent = useName;         // 只染名字
+        nm.textContent = useName;
         el.text.appendChild(nm);
-        el.text.appendChild(document.createTextNode('「' + line + suffix));
-      } else {
-        el.text.appendChild(document.createTextNode(line + suffix));
       }
-      boxLines.push({ name: useName, text: (useName ? '「' : '') + line + suffix });
+      runs.forEach(function (r) {
+        var s = document.createElement('span');
+        if (r.color) s.style.color = r.color;
+        s.textContent = r.text;
+        el.text.appendChild(s);
+      });
+      boxLines.push({ name: useName, runs: runs });
     });
   }
 
@@ -180,8 +241,8 @@
      —— 这样段内分页时不会每页都重复一遍名字。 */
   function typePage(blkData, pg) {
     var lines = toLines(pg);
-    var sp = blkData.speaker;
-    var nameJp = sp ? pick(sp.name || sp, 'jp') : '';
+    var sp = speakerOf(blkData);
+    var nameJp = sp.name;
     var total = pages().length;
     var firstPage = page === 0;
     var lastPage = page === total - 1;
@@ -195,35 +256,30 @@
     lines.forEach(function (line, li) {
       if (boxLines.length || li) out.appendChild(document.createElement('br'));
 
-      var prefix = '';
-      if (firstPage && li === 0 && nameJp) {
+      var useName = (firstPage && li === 0 && nameJp) ? nameJp : null;
+      var suffix = (lastPage && li === lines.length - 1 && nameJp) ? '」' : '';
+      var runs = parseRuns(line + suffix);
+      if (useName) runs = [{ text: '「', color: null }].concat(runs);
+
+      if (useName) {
         var nm = document.createElement('span');
         nm.className = 'nm';
-        nm.textContent = nameJp;          // 只染名字
+        nm.textContent = useName;
         out.appendChild(nm);
-        out.appendChild(document.createTextNode('「'));   // 引号是普通文字色
-        prefix = nameJp + '「';
       }
 
-      Array.prototype.forEach.call(line, function (c) {
-        var s = document.createElement('span');
-        s.className = 'ch';
-        s.textContent = c;
-        out.appendChild(s);
-        chars.push(s);
+      runs.forEach(function (r) {
+        Array.prototype.forEach.call(r.text, function (c) {
+          var s = document.createElement('span');
+          s.className = 'ch';
+          if (r.color) s.style.color = r.color;
+          s.textContent = c;
+          out.appendChild(s);
+          chars.push(s);
+        });
       });
 
-      var suffix = '';
-      if (lastPage && li === lines.length - 1 && nameJp) {
-        var cl = document.createElement('span');
-        cl.className = 'ch';
-        cl.textContent = '」';
-        out.appendChild(cl);
-        chars.push(cl);
-        suffix = '」';
-      }
-      boxLines.push({ name: (firstPage && li === 0 && nameJp) ? nameJp : null,
-                      text: (prefix ? '「' : '') + line + suffix });
+      boxLines.push({ name: useName, runs: runs });
     });
 
     var i = 0;

@@ -44,21 +44,38 @@ node tools/serve.mjs 27700
 
 ```jsonc
 {
+  "meta": {
+    "colors": {
+      "name": ["#f2f221", "#11f3ef", "#00c400", "#efa9ec"],   // 角色名字可选的几种颜色
+      "emph": {
+        "1": { "label": "正面强调", "color": "#f4f824" },
+        "2": { "label": "普通强调", "color": "#00cdd0" },
+        "3": { "label": "种族和地名强调", "color": "#00c400" },
+        "4": { "label": "组织名强调", "color": "#efa9ec" }
+      }
+    }
+  },
+  "characters": [
+    { "id": "shinx", "name": { "jp": "コリンク", "en": "Shinx" },
+      "species": 403, "color": "#f2f221", "portrait": "assets/img/portrait/0403-normal.png" }
+  ],
   "chapters": [{
     "id": "ch01",
     "title": { "jp": "いっしょう すなのうえの あしあと", "en": "1 — Footprints" },
     "blocks": [{
       "bg": "assets/img/scene-beach.png",
-      "speaker": { "name": { "jp": "コリンク", "en": "Shinx" }, "color": "#ffe14d" },
-      "portrait": { "src": "assets/img/portrait/0403-normal.png", "side": "left" },
-      "text": { "jp": [["わっ!"], ["こんなところで なにしてるの?"]], "en": [[...]] }
+      "speaker": { "char": "shinx" },            // 指向 characters；不写 = 旁白
+      "portrait": { "side": "left" },            // 不写 src = 用角色的默认头像
+      "text": { "jp": [["わっ!"], ["[3]とびら[/]が あるよ"]], "en": [[...]] }
     }]
   }]
 }
 ```
 
-`text.jp` / `text.en` 是**页数组**，一页是**行数组**；`speaker.name` 留空 = 旁白；
-`portrait.side` 可以是 `left` / `right`。
+- `text.jp` / `text.en` 是**页数组**，一页是**行数组**
+- 正文里 `[1]…[/]` `[2]…[/]` `[3]…[/]` `[4]…[/]` 是**强调色**（上面对应的四种），
+  可以在编辑器里选中文字直接点按钮插入
+- 说话人只写角色 id，名字/颜色/头像都跟着角色走
 
 ## 工具脚本
 
@@ -67,6 +84,7 @@ node tools/serve.mjs 27700
 | `node tools/serve.mjs` | 本地服务器（阅读器 + 作者工具 + 图鉴接口） | 每次开发 |
 | `node tools/test-reader.js` | 阅读器冒烟测试（CDP）+ 截图 | 改完阅读器 |
 | `node tools/test-editor.js` | 作者工具冒烟测试（会临时改 chapters.json，跑完还原） | 改完编辑器 |
+| `node tools/test-characters.js` | 角色 + 强调色冒烟测试 | 改完角色功能 |
 | `python tools/check-chars.py` | 扫全部用字，和字体 cmap 比对，列出缺字 | 改文案 / 换字体后 |
 | `python tools/make-ui.py` | 从 `Frame.png` 切九宫格（对话框 + 头像框） | 素材更新时 |
 | `python tools/make-font.py` | NDS12 → woff2（`--subset` 可按剧情用字裁剪） | 换字体时 |

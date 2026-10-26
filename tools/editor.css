@@ -130,3 +130,19 @@ legend { font-size: 12px; color: #50627a; padding: 0 4px; }
   font-size: 12px; opacity: 0; pointer-events: none; transition: opacity .15s; z-index: 60;
 }
 .toast.on { opacity: 1; }
+
+/* ---------------- 角色 / 强调色 ---------------- */
+.list.chars { flex: 0 0 auto; max-height: 150px; }
+.list li .dot {
+  flex: 0 0 8px; width: 8px; height: 8px; border-radius: 2px;
+  border: 1px solid rgba(0,0,0,.15);
+}
+.swatch {
+  width: 26px; height: 22px; padding: 0; border-radius: 4px;
+  border: 1px solid rgba(0,0,0,.2);
+}
+.emphbar { gap: 6px; }
+.emphbar .emph {
+  padding: 2px 8px; font-weight: 600; background: #1b2230; border-color: #333c4d;
+}
+.emphbar .emph:hover { background: #232c3d; }

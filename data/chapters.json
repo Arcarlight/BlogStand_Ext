@@ -2,100 +2,307 @@
   "_format": "zz-story/1",
   "_note": "样例数据。text 按语言分（jp / en），每种语言是「页数组」，一页是「行数组」: 一页打完后出现 ▼，按键继续下一页（页与页之间接着往对话框里追加，超过 3 行清屏）。speaker.name 是对话框开头的名字（color 决定颜色）；portrait.side 用 left / right。注意: NDS12 字体只有假名 + 英文，没有汉字 —— 日文全部用平假名/片假名写。",
   "meta": {
-    "title": { "jp": "？？？", "en": "???" },
+    "title": {
+      "jp": "？？？",
+      "en": "???"
+    },
     "defaultLang": "jp",
-    "prompt": "inline"
+    "prompt": "inline",
+    "colors": {
+      "name": [
+        "#f2f221",
+        "#11f3ef",
+        "#00c400",
+        "#efa9ec"
+      ],
+      "emph": {
+        "1": {
+          "label": "正面强调",
+          "color": "#f4f824"
+        },
+        "2": {
+          "label": "普通强调",
+          "color": "#00cdd0"
+        },
+        "3": {
+          "label": "种族和地名强调",
+          "color": "#00c400"
+        },
+        "4": {
+          "label": "组织名强调",
+          "color": "#efa9ec"
+        }
+      }
+    }
   },
   "chapters": [
     {
       "id": "ch01",
-      "title": { "jp": "いっしょう すなのうえの あしあと", "en": "1 — Footprints on the Sand" },
+      "title": {
+        "jp": "いっしょう すなのうえの あしあと",
+        "en": "1 — Footprints on the Sand"
+      },
       "blocks": [
         {
-          "bg": "assets/img/scene-beach.png",
+          "bg": "",
           "text": {
-            "jp": [["とおくで、なみの おとが した。"]],
-            "en": [["Somewhere far away, waves were breaking."]]
+            "jp": [
+              [
+                "とおくで、なみの おとが した。"
+              ]
+            ],
+            "en": [
+              [
+                "Somewhere far away, waves were breaking."
+              ]
+            ]
+          },
+          "portrait": {
+            "src": "assets/img/portrait/0330-normal.png",
+            "side": "right"
           }
         },
         {
           "bg": "assets/img/scene-beach.png",
-          "speaker": { "name": { "jp": "コリンク", "en": "Shinx" }, "color": "#ffe14d" },
-          "portrait": { "src": "assets/img/portrait/0403-normal.png", "side": "right" },
+          "speaker": {
+            "char": "shinx"
+          },
+          "portrait": {
+            "src": "assets/img/portrait/0403-normal.png",
+            "side": "right"
+          },
           "text": {
-            "jp": [["わっ!"], ["こんなところで なにしてるの?"]],
-            "en": [["Whoa!"], ["What are you doing out here?"]]
+            "jp": [
+              [
+                "わっ!"
+              ],
+              [
+                "こんなところで なにしてるの?"
+              ]
+            ],
+            "en": [
+              [
+                "Whoa!"
+              ],
+              [
+                "What are you doing out here?"
+              ]
+            ]
           }
         },
         {
           "bg": "assets/img/scene-beach.png",
-          "speaker": { "name": { "jp": "コリンク", "en": "Shinx" }, "color": "#ffe14d" },
-          "portrait": { "src": "assets/img/portrait/0403-surprised.png", "side": "right" },
+          "speaker": {
+            "char": "shinx"
+          },
+          "portrait": {
+            "src": "assets/img/portrait/0403-surprised.png",
+            "side": "right"
+          },
           "text": {
-            "jp": [["……もしかして、"]],
-            "en": [["...Wait, don't tell me—"]]
+            "jp": [
+              [
+                "……もしかして、"
+              ]
+            ],
+            "en": [
+              [
+                "...Wait, don't tell me—"
+              ]
+            ]
           }
         },
         {
           "bg": "assets/img/scene-beach.png",
-          "speaker": { "name": { "jp": "リオル", "en": "Riolu" }, "color": "#8fd8ff" },
-          "portrait": { "src": "assets/img/portrait/0447-normal.png", "side": "left" },
+          "speaker": {
+            "char": "riolu"
+          },
+          "portrait": {
+            "src": "assets/img/portrait/0447-normal.png",
+            "side": "left"
+          },
           "text": {
-            "jp": [["たぶん、ぼくも わからない。"], ["きがついたら ここに いたんだ。"]],
-            "en": [["I... don't know either."], ["I just woke up here."]]
+            "jp": [
+              [
+                "たぶん、ぼくも わからない。"
+              ],
+              [
+                "きがついたら ここに いたんだ。"
+              ]
+            ],
+            "en": [
+              [
+                "I... don't know either."
+              ],
+              [
+                "I just woke up here."
+              ]
+            ]
           }
         },
         {
           "bg": "assets/img/scene-beach.png",
-          "speaker": { "name": { "jp": "コリンク", "en": "Shinx" }, "color": "#ffe14d" },
-          "portrait": { "src": "assets/img/portrait/0403-happy.png", "side": "right" },
+          "speaker": {
+            "char": "shinx"
+          },
+          "portrait": {
+            "src": "assets/img/portrait/0403-happy.png",
+            "side": "right"
+          },
           "text": {
-            "jp": [["ふうん。"], ["まあ いいや。それより、"]],
-            "en": [["Huh."], ["Whatever. Anyway—"]]
+            "jp": [
+              [
+                "ふうん。"
+              ],
+              [
+                "まあ いいや。それより、"
+              ]
+            ],
+            "en": [
+              [
+                "Huh."
+              ],
+              [
+                "Whatever. Anyway—"
+              ]
+            ]
           }
         },
         {
           "bg": "assets/img/scene-beach.png",
-          "speaker": { "name": { "jp": "コリンク", "en": "Shinx" }, "color": "#ffe14d" },
-          "portrait": { "src": "assets/img/portrait/0403-normal.png", "side": "right" },
+          "speaker": {
+            "char": "shinx"
+          },
+          "portrait": {
+            "src": "assets/img/portrait/0403-normal.png",
+            "side": "right"
+          },
           "text": {
-            "jp": [["あっちに へんな とびらが あるんだ。"], ["いっしょに みに いかない?"]],
-            "en": [["There's a weird door over there."], ["Wanna go look?"]]
+            "jp": [
+              [
+                "あっちに [3]へんな とびら[/]が あるんだ。"
+              ],
+              [
+                "いっしょに みに いかない?"
+              ]
+            ],
+            "en": [
+              [
+                "There's a weird door over there."
+              ],
+              [
+                "Wanna go look?"
+              ]
+            ]
           }
         },
         {
           "bg": "assets/img/scene-beach.png",
           "text": {
-            "jp": [["（さしだされた ちいさな てを、ぼくは しばらく みつめていた。）"]],
-            "en": [["(I stared at the small paw held out to me.)"]]
+            "jp": [
+              [
+                "（さしだされた ちいさな てを、ぼくは しばらく みつめていた。）"
+              ]
+            ],
+            "en": [
+              [
+                "(I stared at the small paw held out to me.)"
+              ]
+            ]
           }
         },
         {
           "bg": "assets/img/scene-beach.png",
-          "speaker": { "name": { "jp": "リオル", "en": "Riolu" }, "color": "#8fd8ff" },
-          "portrait": { "src": "assets/img/portrait/0447-normal.png", "side": "left" },
+          "speaker": {
+            "char": "riolu"
+          },
+          "portrait": {
+            "src": "assets/img/portrait/0447-normal.png",
+            "side": "left"
+          },
           "text": {
-            "jp": [["……うん。"], ["よろしく、コリンク。"]],
-            "en": [["...Yeah."], ["Nice to meet you, Shinx."]]
+            "jp": [
+              [
+                "[1]……うん。[/]"
+              ],
+              [
+                "よろしく、コリンク。"
+              ]
+            ],
+            "en": [
+              [
+                "...Yeah."
+              ],
+              [
+                "Nice to meet you, Shinx."
+              ]
+            ]
           }
         },
         {
           "bg": "assets/img/scene-beach.png",
           "text": {
-            "jp": [["すなのうえに、ふたつの あしあとが ならんで のびていった。"]],
-            "en": [["Two sets of footprints stretched side by side across the sand."]]
+            "jp": [
+              [
+                "すなのうえに、ふたつの あしあとが ならんで のびていった。"
+              ]
+            ],
+            "en": [
+              [
+                "Two sets of footprints stretched side by side across the sand."
+              ]
+            ]
           }
         },
         {
           "bg": "assets/img/scene-beach.png",
-          "speaker": { "name": { "jp": "リオル", "en": "Riolu" }, "color": "#8fd8ff" },
-          "portrait": { "src": "assets/img/portrait/0447-normal.png", "side": "left" },
+          "speaker": {
+            "char": "riolu"
+          },
+          "portrait": {
+            "src": "assets/img/portrait/0447-normal.png",
+            "side": "left"
+          },
           "text": {
-            "jp": [["1ぎょうめ: ここは しずかな うみべ。", "2ぎょうめ: なみの おとだけが きこえる。", "3ぎょうめ: だれも いない みたいだ。"]],
-            "en": [["Line one: a quiet shore.", "Line two: only the waves.", "Line three: nobody around."]]
+            "jp": [
+              [
+                "1ぎょうめ: ここは しずかな うみべ。",
+                "2ぎょうめ: なみの おとだけが きこえる。",
+                "3ぎょうめ: だれも いない みたいだ。"
+              ]
+            ],
+            "en": [
+              [
+                "Line one: a quiet shore.",
+                "Line two: only the waves.",
+                "Line three: nobody around."
+              ]
+            ]
           }
         }
       ]
+    }
+  ],
+  "characters": [
+    {
+      "id": "shinx",
+      "name": {
+        "jp": "コリンク",
+        "en": "Shinx"
+      },
+      "color": "#f2f221",
+      "species": 403,
+      "portrait": "assets/img/portrait/0403-normal.png"
+    },
+    {
+      "id": "riolu",
+      "name": {
+        "jp": "リオル",
+        "en": "Riolu"
+      },
+      "color": "#11f3ef",
+      "species": 447,
+      "portrait": "assets/img/portrait/0447-normal.png"
     }
   ]
 }
