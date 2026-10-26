@@ -1,0 +1,92 @@
+{
+  "_format": "zz-story/1",
+  "_note": "这是样例数据 —— 结构照它写就行。text 下面按语言分（jp / en），每种语言是「页数组」，每一页是「行数组」：一页打完后出现 ▼，按键继续下一页（页与页之间会接着往对话框里追加，超过 3 行清屏）。speaker.name 是对话框里那个名字（带颜色），portrait 可以放 left 或 right。",
+  "meta": {
+    "title": { "jp": "？？？", "en": "???" },
+    "defaultLang": "jp",
+    "prompt": "inline"
+  },
+  "chapters": [
+    {
+      "id": "ch01",
+      "title": { "jp": "一章　砂の上の足あと", "en": "1 — Footprints on the Sand" },
+      "blocks": [
+        {
+          "bg": "assets/img/scene-beach.png",
+          "text": {
+            "jp": [["どこか遠くで、波の音がした。"]],
+            "en": [["Somewhere far away, waves were breaking."]]
+          }
+        },
+        {
+          "bg": "assets/img/scene-beach.png",
+          "speaker": { "name": { "jp": "コリンク", "en": "Shinx" }, "color": "#ffe14d" },
+          "portrait": { "src": "assets/img/portrait-shinx.png", "side": "right" },
+          "text": {
+            "jp": [["わっ!"], ["こんなところで なにしてるの?"]],
+            "en": [["Whoa!"], ["What are you doing out here?"]]
+          }
+        },
+        {
+          "bg": "assets/img/scene-beach.png",
+          "speaker": { "name": { "jp": "コリンク", "en": "Shinx" }, "color": "#ffe14d" },
+          "portrait": { "src": "assets/img/portrait-shinx.png", "side": "right" },
+          "text": {
+            "jp": [["……もしかして、"]],
+            "en": [["...Wait, don't tell me—"]]
+          }
+        },
+        {
+          "bg": "assets/img/scene-beach.png",
+          "speaker": { "name": { "jp": "虹星", "en": "Hoshiniji" }, "color": "#8fd8ff" },
+          "portrait": { "src": "assets/img/portrait-hero.png", "side": "left" },
+          "text": {
+            "jp": [["たぶん、僕もわからない。"], ["気がついたら ここにいたんだ。"]],
+            "en": [["I... don't know either."], ["I just woke up here."]]
+          }
+        },
+        {
+          "bg": "assets/img/scene-beach.png",
+          "speaker": { "name": { "jp": "コリンク", "en": "Shinx" }, "color": "#ffe14d" },
+          "portrait": { "src": "assets/img/portrait-shinx.png", "side": "right" },
+          "text": {
+            "jp": [["ふうん。"], ["まあ いいや。それより、"]],
+            "en": [["Huh."], ["Whatever. Anyway—"]]
+          }
+        },
+        {
+          "bg": "assets/img/scene-beach.png",
+          "speaker": { "name": { "jp": "コリンク", "en": "Shinx" }, "color": "#ffe14d" },
+          "portrait": { "src": "assets/img/portrait-shinx.png", "side": "right" },
+          "text": {
+            "jp": [["あっちに 変な扉が あるんだ。"], ["いっしょに 見にいかない?"]],
+            "en": [["There's a weird door over there."], ["Wanna go look?"]]
+          }
+        },
+        {
+          "bg": "assets/img/scene-beach.png",
+          "text": {
+            "jp": [["（差し出された 小さな手を、僕はしばらく見つめていた。）"]],
+            "en": [["(I stared at the small paw held out to me.)"]]
+          }
+        },
+        {
+          "bg": "assets/img/scene-beach.png",
+          "speaker": { "name": { "jp": "虹星", "en": "Hoshiniji" }, "color": "#8fd8ff" },
+          "portrait": { "src": "assets/img/portrait-hero.png", "side": "left" },
+          "text": {
+            "jp": [["……うん。"], ["よろしく、コリンク。"]],
+            "en": [["...Yeah."], ["Nice to meet you, Shinx."]]
+          }
+        },
+        {
+          "bg": "assets/img/scene-beach.png",
+          "text": {
+            "jp": [["砂の上に、二つの足あとが 並んで のびていった。"]],
+            "en": [["Two sets of footprints stretched side by side across the sand."]]
+          }
+        }
+      ]
+    }
+  ]
+}

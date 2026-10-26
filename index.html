@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>？？？</title>
+<link rel="stylesheet" href="css/story.css">
+</head>
+<body>
+<main class="vn">
+  <div class="vn-screen">
+    <div class="vn-scene" id="scene"></div>
+    <h2 class="vn-chapter" id="chapterTitle"></h2>
+
+    <div class="vn-box" id="box" role="button" tabindex="0" aria-label="继续">
+      <div class="vn-portrait" id="portrait"></div>
+      <p class="vn-text" id="text"></p>
+      <div class="vn-arrow" id="arrow" hidden></div>
+    </div>
+  </div>
+
+  <div class="vn-bar">
+    <button class="vn-btn" id="prev" type="button">‹ 前へ</button>
+    <button class="vn-btn" id="next" type="button">次へ ›</button>
+    <button class="vn-btn" id="save" type="button">存档</button>
+    <button class="vn-btn" id="load" type="button">读档</button>
+    <button class="vn-btn" id="restart" type="button">从头</button>
+    <span class="grow"></span>
+    <button class="vn-btn" id="lang" type="button">JP</button>
+    <span class="vn-progress" id="pos"></span>
+  </div>
+
+  <p class="vn-hint">点对话框 / 按 → 继续　← 回上一句　S 存档</p>
+</main>
+
+<div class="vn-toast" id="toast"></div>
+<script src="js/story.js"></script>
+</body>
+</html>
