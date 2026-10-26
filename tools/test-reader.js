@@ -153,6 +153,15 @@ const ok = (c, m) => {
   ok(d2.text.length > d1.text.length, '第二页往下追加了，没清屏');
   ok(d2.text.startsWith(d1.text), '第一页的原样保留在前面');
   ok(d2.text.endsWith('」'), '整段最后一句补上了收尾的」');
+  const nmInfo = JSON.parse(await ev(`JSON.stringify((function(){
+    var nm = document.querySelector('#text .nm');
+    return { n: document.querySelectorAll('#text .nm').length,
+             color: nm ? getComputedStyle(nm).color : '',
+             text: nm ? nm.textContent : '' };
+  })())`));
+  console.log('  名字：' + JSON.stringify(nmInfo));
+  ok(nmInfo.n === 1 && nmInfo.text === 'コリンク', '翻到第二页后名字还在、只有一个');
+  ok(nmInfo.color.indexOf('255, 225, 77') >= 0, '名字仍然是说话的黄色（' + nmInfo.color + '）');
   ok(!/コリンク「[^]*コリンク/.test(d2.text), '段内分页没有重复一遍名字');
 
   console.log('\n== 进入下一段 ==');

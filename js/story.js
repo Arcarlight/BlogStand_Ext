@@ -133,10 +133,18 @@
 
   function paintBox() {
     // 把已定下的行画出来（不含正在打的那一行）
+    // boxLines 里每一项是 { name, text }：name 有值就说明这行开头是说话人，
+    // 重画时必须把它包成 .nm，否则翻到下一页时名字会变回白字（踩过）。
     el.text.innerHTML = '';
-    boxLines.forEach(function (line, i) {
+    boxLines.forEach(function (entry, i) {
       if (i) el.text.appendChild(document.createElement('br'));
-      el.text.appendChild(document.createTextNode(line));
+      if (entry.name) {
+        var nm = document.createElement('span');
+        nm.className = 'nm';
+        nm.textContent = entry.name;
+        el.text.appendChild(nm);
+      }
+      el.text.appendChild(document.createTextNode(entry.text));
     });
   }
 
@@ -152,18 +160,18 @@
 
     lines.forEach(function (line, li) {
       if (boxLines.length || li) el.text.appendChild(document.createElement('br'));
-      var prefix = (pageIdx === 0 && li === 0 && name) ? name + '「' : '';
+      var useName = (pageIdx === 0 && li === 0 && name) ? name : null;
       var suffix = (pageIdx === total - 1 && li === lines.length - 1 && name) ? '」' : '';
-      if (prefix) {
+      if (useName) {
         var nm = document.createElement('span');
         nm.className = 'nm';
-        nm.textContent = name;            // 名字染色
+        nm.textContent = useName;         // 只染名字
         el.text.appendChild(nm);
         el.text.appendChild(document.createTextNode('「' + line + suffix));
       } else {
-        el.text.appendChild(document.createTextNode(prefix + line + suffix));
+        el.text.appendChild(document.createTextNode(line + suffix));
       }
-      boxLines.push(prefix + line + suffix);
+      boxLines.push({ name: useName, text: (useName ? '「' : '') + line + suffix });
     });
   }
 
@@ -214,7 +222,8 @@
         chars.push(cl);
         suffix = '」';
       }
-      boxLines.push(prefix + line + suffix);
+      boxLines.push({ name: (firstPage && li === 0 && nameJp) ? nameJp : null,
+                      text: (prefix ? '「' : '') + line + suffix });
     });
 
     var i = 0;
