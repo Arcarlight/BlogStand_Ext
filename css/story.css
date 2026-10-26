@@ -123,6 +123,9 @@ body {
   margin: 0;
   font-size: calc(var(--u) * 12);
   line-height: calc(var(--u) * 15);
+  /* 每个字下方一格黑阴影（DS 上文字自带的那种），
+     压在黑底上看不出来，但字号放大后字的边缘会“立”起来，和游戏一致 */
+  text-shadow: 0 calc(var(--u) * 1) 0 #000;
   letter-spacing: 0;
   word-break: normal;
   overflow-wrap: anywhere;
@@ -245,7 +248,7 @@ body {
   font-size: calc(var(--u) * 10);
   font-weight: normal;
   color: #e8f0ff;
-  text-shadow: 0 calc(var(--u) * 1) 0 #0b1024;
+  text-shadow: 0 calc(var(--u) * 1) 0 #000;
   z-index: 4;
 }
 
