@@ -96,6 +96,16 @@ const ok = (c, m) => {
   await send('Page.navigate', { url: BASE });
   await sleep(1500);
 
+  /* 线上站要等数据 + 字体，这里等第一句真的渲染出来再开始测 */
+  let ready = 0;
+  while (ready < 25000) {
+    const t = await ev(`(document.getElementById('text')||{}).innerText || ''`);
+    if (t && String(t).trim().length) break;
+    await sleep(400);
+    ready += 400;
+  }
+  if (ready >= 4000) console.log('  （等了 ' + (ready / 1000).toFixed(1) + 's 才渲染出来）');
+
   console.log('== 加载 ==');
   const st = await ev(`JSON.stringify({
     text: (document.getElementById('text')||{}).innerText || '',
