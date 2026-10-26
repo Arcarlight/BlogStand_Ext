@@ -1,6 +1,6 @@
 {
   "_format": "zz-story/1",
-  "_note": "这是样例数据 —— 结构照它写就行。text 下面按语言分（jp / en），每种语言是「页数组」，每一页是「行数组」：一页打完后出现 ▼，按键继续下一页（页与页之间会接着往对话框里追加，超过 3 行清屏）。speaker.name 是对话框里那个名字（带颜色），portrait 可以放 left 或 right。",
+  "_note": "样例数据 —— 结构照它写。text 按语言分（jp / en），每种语言是「页数组」，一页是「行数组」：一页打完后出现 ▼，按键继续下一页（页与页之间接着往对话框里追加，超过 3 行清屏）。speaker.name 是对话框开头的名字（color 决定颜色）；portrait.side 用 left / right；portrait.src 换成对应表情的头像即可（素材来自 PMD Sprite Collab）。",
   "meta": {
     "title": { "jp": "？？？", "en": "???" },
     "defaultLang": "jp",
@@ -21,7 +21,7 @@
         {
           "bg": "assets/img/scene-beach.png",
           "speaker": { "name": { "jp": "コリンク", "en": "Shinx" }, "color": "#ffe14d" },
-          "portrait": { "src": "assets/img/portrait-shinx.png", "side": "right" },
+          "portrait": { "src": "assets/img/portrait/0403-normal.png", "side": "right" },
           "text": {
             "jp": [["わっ!"], ["こんなところで なにしてるの?"]],
             "en": [["Whoa!"], ["What are you doing out here?"]]
@@ -30,7 +30,7 @@
         {
           "bg": "assets/img/scene-beach.png",
           "speaker": { "name": { "jp": "コリンク", "en": "Shinx" }, "color": "#ffe14d" },
-          "portrait": { "src": "assets/img/portrait-shinx.png", "side": "right" },
+          "portrait": { "src": "assets/img/portrait/0403-surprised.png", "side": "right" },
           "text": {
             "jp": [["……もしかして、"]],
             "en": [["...Wait, don't tell me—"]]
@@ -38,8 +38,8 @@
         },
         {
           "bg": "assets/img/scene-beach.png",
-          "speaker": { "name": { "jp": "虹星", "en": "Hoshiniji" }, "color": "#8fd8ff" },
-          "portrait": { "src": "assets/img/portrait-hero.png", "side": "left" },
+          "speaker": { "name": { "jp": "リオル", "en": "Riolu" }, "color": "#8fd8ff" },
+          "portrait": { "src": "assets/img/portrait/0447-normal.png", "side": "left" },
           "text": {
             "jp": [["たぶん、僕もわからない。"], ["気がついたら ここにいたんだ。"]],
             "en": [["I... don't know either."], ["I just woke up here."]]
@@ -48,7 +48,7 @@
         {
           "bg": "assets/img/scene-beach.png",
           "speaker": { "name": { "jp": "コリンク", "en": "Shinx" }, "color": "#ffe14d" },
-          "portrait": { "src": "assets/img/portrait-shinx.png", "side": "right" },
+          "portrait": { "src": "assets/img/portrait/0403-happy.png", "side": "right" },
           "text": {
             "jp": [["ふうん。"], ["まあ いいや。それより、"]],
             "en": [["Huh."], ["Whatever. Anyway—"]]
@@ -57,7 +57,7 @@
         {
           "bg": "assets/img/scene-beach.png",
           "speaker": { "name": { "jp": "コリンク", "en": "Shinx" }, "color": "#ffe14d" },
-          "portrait": { "src": "assets/img/portrait-shinx.png", "side": "right" },
+          "portrait": { "src": "assets/img/portrait/0403-normal.png", "side": "right" },
           "text": {
             "jp": [["あっちに 変な扉が あるんだ。"], ["いっしょに 見にいかない?"]],
             "en": [["There's a weird door over there."], ["Wanna go look?"]]
@@ -72,8 +72,8 @@
         },
         {
           "bg": "assets/img/scene-beach.png",
-          "speaker": { "name": { "jp": "虹星", "en": "Hoshiniji" }, "color": "#8fd8ff" },
-          "portrait": { "src": "assets/img/portrait-hero.png", "side": "left" },
+          "speaker": { "name": { "jp": "リオル", "en": "Riolu" }, "color": "#8fd8ff" },
+          "portrait": { "src": "assets/img/portrait/0447-normal.png", "side": "left" },
           "text": {
             "jp": [["……うん。"], ["よろしく、コリンク。"]],
             "en": [["...Yeah."], ["Nice to meet you, Shinx."]]
@@ -84,6 +84,15 @@
           "text": {
             "jp": [["砂の上に、二つの足あとが 並んで のびていった。"]],
             "en": [["Two sets of footprints stretched side by side across the sand."]]
+          }
+        },
+        {
+          "bg": "assets/img/scene-beach.png",
+          "speaker": { "name": { "jp": "リオル", "en": "Riolu" }, "color": "#8fd8ff" },
+          "portrait": { "src": "assets/img/portrait/0447-normal.png", "side": "left" },
+          "text": {
+            "jp": [["一行目：ここは しずかな うみべ。", "二行目：波の おとだけが きこえる。", "三行目：だれも いない みたいだ。"]],
+            "en": [["Line one: a quiet shore.", "Line two: only the waves.", "Line three: nobody around."]]
           }
         }
       ]

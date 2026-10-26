@@ -1,9 +1,9 @@
 /* ============================================================
    虹星的不可思议小说 —— 阅读页样式
    ------------------------------------------------------------
-   全部尺寸都以「DS 像素」为单位：--ds 是 1 个 DS 像素等于多少 CSS 像素。
-   窗口边框、字号、行高都乘这个数，所以放大只会是整数倍，不会糊。
-   --ds = 2（小屏）/ 3（宽屏），配合 frame9@2x / @3x 两份九宫格。
+   全部尺寸都以「DS 像素」为单位：--u 是 1 个 DS 像素等于多少 CSS 像素。
+   窗口宽 960 时 --u 正好 3（整数倍，最清楚）；窄屏按比例缩小，不会溢出。
+   边框用 box9 / portrait9 两套九宫格（@2x / @3x）。
 
    九宫格来自 assets/ui/Frame.png（DS 原始素材，8x8 一格）：
      外圈近白 → 蓝 → 深蓝 → 黑内心，四个角是圆的。
@@ -16,15 +16,17 @@
 }
 
 :root {
-  --ds: 2;
+  /* 1 个 DS 像素等于多少 CSS 像素：跟着窗口宽度流式变，
+     最宽算到 960px / 320 = 3（正好整数倍），窄屏自动缩小，不会溢出。 */
+  --u: calc(min(100vw - 24px, 960px) / 320);
   --ink: #ffffff;
   --name: #ffe14d;
   --blue: #3b5bff;
   --screen: #060a16;
 }
 
-@media (min-width: 1280px) {
-  :root { --ds: 3; }
+@media (min-width: 984px) {
+  :root {  }
 }
 
 * { box-sizing: border-box; }
@@ -43,14 +45,14 @@ html, body {
 body {
   display: flex;
   justify-content: center;
-  padding: calc(var(--ds) * 12px) calc(var(--ds) * 8px);
+  padding: calc(var(--u) * 12) calc(var(--u) * 8);
 }
 
 /* ---------------- 整个舞台 ---------------- */
 .vn {
   position: relative;
   width: 100%;
-  max-width: calc(var(--ds) * 320px);   /* 320 DS 像素宽 */
+  max-width: calc(var(--u) * 320);   /* 320 DS 像素宽 */
   align-self: flex-start;
 }
 
@@ -66,7 +68,7 @@ body {
     repeating-linear-gradient(45deg, rgba(255,255,255,.018) 0 2px, transparent 2px 4px),
     radial-gradient(circle at 50% 42%, #1a2340 0%, #0b1024 62%, #060a16 100%);
   background-size: auto, cover;
-  border: calc(var(--ds) * 1px) solid #1b2544;
+  border: calc(var(--u) * 1) solid #1b2544;
   overflow: hidden;
 }
 
@@ -94,22 +96,23 @@ body {
    对话框浮在场景底部（和 PMD 一样压在画面上）。 */
 .vn-box {
   position: absolute;
-  left: calc(var(--ds) * 4px);
-  right: calc(var(--ds) * 4px);
-  bottom: calc(var(--ds) * 6px);
-  padding: calc(var(--ds) * 4px) calc(var(--ds) * 5px) calc(var(--ds) * 3px);
-  min-height: calc(var(--ds) * 56px);
+  left: calc(var(--u) * 4);
+  right: calc(var(--u) * 4);
+  bottom: calc(var(--u) * 6);
+  /* 版心要能放下 3 行：行高 15 × 3 = 45，加内边距，再加上下各 8 的边框 */
+  padding: calc(var(--u) * 2) calc(var(--u) * 6);
+  min-height: calc(var(--u) * 65);
   border-style: solid;
-  border-width: calc(var(--ds) * 8px);
+  border-width: calc(var(--u) * 8);
   border-image-source: url('../assets/ui/box9@2x.png');
   border-image-slice: 16 fill;
-  border-image-width: calc(var(--ds) * 8px);
+  border-image-width: calc(var(--u) * 8);
   border-image-repeat: stretch;
   cursor: pointer;
   user-select: none;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 984px) {
   .vn-box {
     border-image-source: url('../assets/ui/box9@3x.png');
     border-image-slice: 24 fill;
@@ -118,13 +121,13 @@ body {
 
 .vn-text {
   margin: 0;
-  font-size: calc(var(--ds) * 12px);
-  line-height: calc(var(--ds) * 15px);
+  font-size: calc(var(--u) * 12);
+  line-height: calc(var(--u) * 15);
   letter-spacing: 0;
   word-break: normal;
   overflow-wrap: anywhere;
   white-space: pre-wrap;
-  min-height: calc(var(--ds) * 30px);
+  min-height: calc(var(--u) * 45);
 }
 
 .vn-text .nm { color: var(--name); }
@@ -134,24 +137,24 @@ body {
 /* ---------------- 头像 ---------------- */
 .vn-portrait {
   position: absolute;
-  left: calc(var(--ds) * 4px);
-  bottom: 100%;
-  margin-bottom: calc(var(--ds) * -2px);
-  width: calc(var(--ds) * 40px);
-  height: calc(var(--ds) * 34px);
+  left: calc(var(--u) * 6);
+  /* 浮在对话框**上方**留一条空隙（按参考图量的：约 1.5 行字高），不贴着框边 */
+  bottom: calc(100% + var(--u) * 21);
+  width: calc(var(--u) * 56);
+  height: calc(var(--u) * 56);
   display: none;
   /* 头像框同样是原素材拼的九宫格（10..17 那 8 格），中间留空放头像 */
   border-style: solid;
-  border-width: calc(var(--ds) * 8px);
+  border-width: calc(var(--u) * 8);
   border-image-source: url('../assets/ui/portrait9@2x.png');
   border-image-slice: 16;
-  border-image-width: calc(var(--ds) * 8px);
+  border-image-width: calc(var(--u) * 8);
   border-image-repeat: stretch;
   z-index: 3;
   image-rendering: pixelated;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 984px) {
   .vn-portrait {
     border-image-source: url('../assets/ui/portrait9@3x.png');
     border-image-slice: 24;
@@ -160,7 +163,7 @@ body {
 
 .vn-portrait.on { display: block; }
 /* 头像可以放左边，也可以放右边（参考图里两种都有） */
-.vn-portrait.side-right { left: auto; right: calc(var(--ds) * 4px); }
+.vn-portrait.side-right { left: auto; right: calc(var(--u) * 6); }
 .vn-portrait img {
   width: 100%;
   height: 100%;
@@ -178,18 +181,18 @@ body {
   display: inline-block;
   width: 0;
   height: 0;
-  margin-left: calc(var(--ds) * 2px);
+  margin-left: calc(var(--u) * 2);
   vertical-align: middle;
-  border-left: calc(var(--ds) * 4px) solid transparent;
-  border-right: calc(var(--ds) * 4px) solid transparent;
-  border-top: calc(var(--ds) * 6px) solid #eef4ff;
-  filter: drop-shadow(0 calc(var(--ds) * 1px) 0 #2b47c8);
+  border-left: calc(var(--u) * 4) solid transparent;
+  border-right: calc(var(--u) * 4) solid transparent;
+  border-top: calc(var(--u) * 6) solid #eef4ff;
+  filter: drop-shadow(0 calc(var(--u) * 1) 0 #2b47c8);
   animation: vn-bob .7s steps(2) infinite;
 }
 
 @keyframes vn-bob {
   0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(calc(var(--ds) * -1px)); }
+  50%      { transform: translateY(calc(var(--u) * -1)); }
 }
 
 /* ---------------- 底部控制条 ---------------- */
@@ -197,18 +200,18 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: calc(var(--ds) * 4px);
-  margin-top: calc(var(--ds) * 6px);
+  gap: calc(var(--u) * 4);
+  margin-top: calc(var(--u) * 6);
 }
 
 .vn-btn {
   font-family: inherit;
-  font-size: calc(var(--ds) * 10px);
+  font-size: calc(var(--u) * 10);
   line-height: 1;
   color: #cfe0ff;
   background: #101a30;
-  border: calc(var(--ds) * 1px) solid #2b3f6b;
-  padding: calc(var(--ds) * 4px) calc(var(--ds) * 5px);
+  border: calc(var(--u) * 1) solid #2b3f6b;
+  padding: calc(var(--u) * 4) calc(var(--u) * 5);
   cursor: pointer;
   image-rendering: pixelated;
 }
@@ -220,14 +223,14 @@ body {
 .vn-bar .grow { flex: 1 1 auto; }
 
 .vn-hint {
-  font-size: calc(var(--ds) * 9px);
+  font-size: calc(var(--u) * 9);
   color: #6d7ea6;
-  margin: calc(var(--ds) * 6px) 0 0;
+  margin: calc(var(--u) * 6) 0 0;
   line-height: 1.6;
 }
 
 .vn-progress {
-  font-size: calc(var(--ds) * 9px);
+  font-size: calc(var(--u) * 9);
   color: #7d8db5;
   font-variant-numeric: tabular-nums;
 }
@@ -235,13 +238,13 @@ body {
 /* 章节名：压在场景左上角，淡淡的，不抢对话 */
 .vn-chapter {
   position: absolute;
-  left: calc(var(--ds) * 6px);
-  top: calc(var(--ds) * 6px);
+  left: calc(var(--u) * 6);
+  top: calc(var(--u) * 6);
   margin: 0;
-  font-size: calc(var(--ds) * 10px);
+  font-size: calc(var(--u) * 10);
   font-weight: normal;
   color: #e8f0ff;
-  text-shadow: 0 calc(var(--ds) * 1px) 0 #0b1024;
+  text-shadow: 0 calc(var(--u) * 1) 0 #0b1024;
   z-index: 4;
 }
 
@@ -249,13 +252,13 @@ body {
 .vn-toast {
   position: fixed;
   left: 50%;
-  bottom: calc(var(--ds) * 16px);
+  bottom: calc(var(--u) * 16);
   transform: translateX(-50%);
-  padding: calc(var(--ds) * 5px) calc(var(--ds) * 8px);
+  padding: calc(var(--u) * 5) calc(var(--u) * 8);
   background: rgba(8, 12, 24, .92);
   border: 1px solid #3b5bff;
   color: #dce7ff;
-  font-size: calc(var(--ds) * 10px);
+  font-size: calc(var(--u) * 10);
   opacity: 0;
   pointer-events: none;
   transition: opacity .15s;
@@ -272,23 +275,23 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: calc(var(--ds) * 6px);
+  gap: calc(var(--u) * 6);
   background: rgba(4, 8, 18, .86);
   text-align: center;
-  padding: calc(var(--ds) * 10px);
+  padding: calc(var(--u) * 10);
   z-index: 5;
 }
 
 .vn-title[hidden] { display: none; }
 .vn-title h1 {
   margin: 0;
-  font-size: calc(var(--ds) * 16px);
+  font-size: calc(var(--u) * 16);
   font-weight: normal;
-  letter-spacing: calc(var(--ds) * 1px);
+  letter-spacing: calc(var(--u) * 1);
   color: #ffffff;
 }
 .vn-title p {
   margin: 0;
-  font-size: calc(var(--ds) * 10px);
+  font-size: calc(var(--u) * 10);
   color: #9fb2dd;
 }

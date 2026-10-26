@@ -169,6 +169,30 @@ const ok = (c, m) => {
   const reloaded = (await ev(`(document.getElementById('text')||{}).innerText || ''`)) || '';
   ok(reloaded.length > 0, '刷新后还能读回内容：' + JSON.stringify(reloaded.slice(0, 20)));
 
+  console.log('\n== 版式：三行字 + 头像位置 ==');
+  const nBlocks = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'chapters.json'), 'utf8'))
+    .chapters[0].blocks.length;
+  await ev(`localStorage.setItem('zz.save', JSON.stringify({ch:0, blk:${nBlocks - 1}, page:0, t:Date.now()}))`);
+  await send('Page.reload');
+  await sleep(2200);
+  const lay = JSON.parse(await ev(`JSON.stringify((function(){
+    var box = document.getElementById('box').getBoundingClientRect();
+    var txt = document.getElementById('text');
+    var por = document.getElementById('portrait').getBoundingClientRect();
+    return {
+      boxTop: Math.round(box.top), boxH: Math.round(box.height),
+      textH: txt.scrollHeight, clientH: txt.clientHeight,
+      lines: (txt.innerText || '').split('\\n').length,
+      porW: Math.round(por.width), porH: Math.round(por.height),
+      gap: Math.round(box.top - por.bottom)
+    };
+  })())`));
+  console.log('  ' + JSON.stringify(lay));
+  ok(lay.lines >= 3, '三行字都在（' + lay.lines + ' 行）');
+  ok(lay.textH <= lay.clientH + 1, '三行放得下、没溢出（文字 ' + lay.textH + ' <= 框内 ' + lay.clientH + '）');
+  ok(lay.gap > 0, '头像浮在对话框上方、留出空隙（间隔 ' + lay.gap + 'px）');
+  ok(lay.porW > 0 && lay.porW > lay.boxH * 0.6, '头像尺寸接近参考比例（' + lay.porW + 'px）');
+
   console.log('\n== 截图 ==');
   await send('Page.captureScreenshot', { format: 'png' }).then((r) =>
     fs.writeFileSync(path.join(OUT, 'reader-1440.png'), Buffer.from(r.data, 'base64'))
