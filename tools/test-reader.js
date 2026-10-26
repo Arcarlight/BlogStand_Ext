@@ -193,6 +193,31 @@ const ok = (c, m) => {
   ok(lay.gap > 0, '头像浮在对话框上方、留出空隙（间隔 ' + lay.gap + 'px）');
   ok(lay.porW > 0 && lay.porW > lay.boxH * 0.6, '头像尺寸接近参考比例（' + lay.porW + 'px）');
 
+  console.log('\n== 用字：只允许假名 / 英文 ==');
+  // 汉字、全角标点、全角空格 —— NDS12 都没有，出现就会掉到系统字体
+  const KANJI = /[\u3400-\u4DBF\u4E00-\u9FFF\u3000]/;
+  const rawData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'chapters.json'), 'utf8'));
+  const badChars = [];
+  rawData.chapters.forEach((c) => {
+    if (c.title && KANJI.test(c.title.jp || '')) badChars.push('章节标题:' + c.title.jp);
+    c.blocks.forEach((b, bi) => {
+      const jp = (b.text && b.text.jp) || [];
+      jp.forEach((page) => page.forEach((line) => {
+        if (KANJI.test(line)) badChars.push('第' + (bi + 1) + '段:' + line);
+      }));
+      if (b.speaker && b.speaker.name && KANJI.test(b.speaker.name.jp || '')) {
+        badChars.push('名字:' + b.speaker.name.jp);
+      }
+    });
+  });
+  ok(badChars.length === 0, '剧情里没有汉字/全角标点' +
+    (badChars.length ? '：' + badChars.slice(0, 3).join(' | ') : ''));
+
+  const uiBad = JSON.parse(await ev(`JSON.stringify(['prev','next','save','load','restart','hint']
+    .map(function(id){ var el = document.getElementById(id); return el ? el.textContent.trim() : ''; })
+    .filter(function(x){ return /[\u3400-\u4DBF\u4E00-\u9FFF\u3000]/.test(x); }))`));
+  ok(uiBad.length === 0, '界面按钮/提示没有汉字' + (uiBad.length ? '：' + uiBad.join(' | ') : ''));
+
   console.log('\n== 截图 ==');
   await send('Page.captureScreenshot', { format: 'png' }).then((r) =>
     fs.writeFileSync(path.join(OUT, 'reader-1440.png'), Buffer.from(r.data, 'base64'))

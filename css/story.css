@@ -198,20 +198,21 @@ body {
 /* ---------------- 底部控制条 ---------------- */
 .vn-bar {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: calc(var(--u) * 4);
+  gap: calc(var(--u) * 3);
   margin-top: calc(var(--u) * 6);
 }
 
 .vn-btn {
   font-family: inherit;
-  font-size: calc(var(--u) * 10);
+  font-size: calc(var(--u) * 9);
   line-height: 1;
   color: #cfe0ff;
   background: #101a30;
   border: calc(var(--u) * 1) solid #2b3f6b;
-  padding: calc(var(--u) * 4) calc(var(--u) * 5);
+  padding: calc(var(--u) * 4) calc(var(--u) * 4);
+  white-space: nowrap;
   cursor: pointer;
   image-rendering: pixelated;
 }

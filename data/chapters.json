@@ -1,6 +1,6 @@
 {
   "_format": "zz-story/1",
-  "_note": "样例数据 —— 结构照它写。text 按语言分（jp / en），每种语言是「页数组」，一页是「行数组」：一页打完后出现 ▼，按键继续下一页（页与页之间接着往对话框里追加，超过 3 行清屏）。speaker.name 是对话框开头的名字（color 决定颜色）；portrait.side 用 left / right；portrait.src 换成对应表情的头像即可（素材来自 PMD Sprite Collab）。",
+  "_note": "样例数据。text 按语言分（jp / en），每种语言是「页数组」，一页是「行数组」: 一页打完后出现 ▼，按键继续下一页（页与页之间接着往对话框里追加，超过 3 行清屏）。speaker.name 是对话框开头的名字（color 决定颜色）；portrait.side 用 left / right。注意: NDS12 字体只有假名 + 英文，没有汉字 —— 日文全部用平假名/片假名写。",
   "meta": {
     "title": { "jp": "？？？", "en": "???" },
     "defaultLang": "jp",
@@ -9,12 +9,12 @@
   "chapters": [
     {
       "id": "ch01",
-      "title": { "jp": "一章　砂の上の足あと", "en": "1 — Footprints on the Sand" },
+      "title": { "jp": "いっしょう すなのうえの あしあと", "en": "1 — Footprints on the Sand" },
       "blocks": [
         {
           "bg": "assets/img/scene-beach.png",
           "text": {
-            "jp": [["どこか遠くで、波の音がした。"]],
+            "jp": [["とおくで、なみの おとが した。"]],
             "en": [["Somewhere far away, waves were breaking."]]
           }
         },
@@ -41,7 +41,7 @@
           "speaker": { "name": { "jp": "リオル", "en": "Riolu" }, "color": "#8fd8ff" },
           "portrait": { "src": "assets/img/portrait/0447-normal.png", "side": "left" },
           "text": {
-            "jp": [["たぶん、僕もわからない。"], ["気がついたら ここにいたんだ。"]],
+            "jp": [["たぶん、ぼくも わからない。"], ["きがついたら ここに いたんだ。"]],
             "en": [["I... don't know either."], ["I just woke up here."]]
           }
         },
@@ -59,14 +59,14 @@
           "speaker": { "name": { "jp": "コリンク", "en": "Shinx" }, "color": "#ffe14d" },
           "portrait": { "src": "assets/img/portrait/0403-normal.png", "side": "right" },
           "text": {
-            "jp": [["あっちに 変な扉が あるんだ。"], ["いっしょに 見にいかない?"]],
+            "jp": [["あっちに へんな とびらが あるんだ。"], ["いっしょに みに いかない?"]],
             "en": [["There's a weird door over there."], ["Wanna go look?"]]
           }
         },
         {
           "bg": "assets/img/scene-beach.png",
           "text": {
-            "jp": [["（差し出された 小さな手を、僕はしばらく見つめていた。）"]],
+            "jp": [["（さしだされた ちいさな てを、ぼくは しばらく みつめていた。）"]],
             "en": [["(I stared at the small paw held out to me.)"]]
           }
         },
@@ -82,7 +82,7 @@
         {
           "bg": "assets/img/scene-beach.png",
           "text": {
-            "jp": [["砂の上に、二つの足あとが 並んで のびていった。"]],
+            "jp": [["すなのうえに、ふたつの あしあとが ならんで のびていった。"]],
             "en": [["Two sets of footprints stretched side by side across the sand."]]
           }
         },
@@ -91,7 +91,7 @@
           "speaker": { "name": { "jp": "リオル", "en": "Riolu" }, "color": "#8fd8ff" },
           "portrait": { "src": "assets/img/portrait/0447-normal.png", "side": "left" },
           "text": {
-            "jp": [["一行目：ここは しずかな うみべ。", "二行目：波の おとだけが きこえる。", "三行目：だれも いない みたいだ。"]],
+            "jp": [["1ぎょうめ: ここは しずかな うみべ。", "2ぎょうめ: なみの おとだけが きこえる。", "3ぎょうめ: だれも いない みたいだ。"]],
             "en": [["Line one: a quiet shore.", "Line two: only the waves.", "Line three: nobody around."]]
           }
         }

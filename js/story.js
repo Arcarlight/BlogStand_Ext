@@ -12,6 +12,25 @@
 (function () {
   'use strict';
 
+  /* 界面上的字：只用假名 / 英文 —— 字体 NDS12 没有汉字，
+     写汉字会掉到系统字体上，和旁边的点阵字完全不是一套。 */
+  var T = {
+    jp: {
+      prev: 'まえへ', next: 'つぎへ', save: 'セーブ', load: 'ロード', restart: 'さいしょから',
+      hint: 'わくを クリック／ → で つぎへ ← で まえへ S で セーブ',
+      saved: 'セーブしました', saveFail: 'セーブできませんでした',
+      loaded: 'ロードしました', noSave: 'セーブが ありません',
+      resumed: 'つづきから', start: 'クリックで すすむ', ended: 'ここまで', reset: 'さいしょから'
+    },
+    en: {
+      prev: 'Prev', next: 'Next', save: 'Save', load: 'Load', restart: 'Restart',
+      hint: 'Click / → next ← back S save',
+      saved: 'Saved', saveFail: 'Could not save',
+      loaded: 'Loaded', noSave: 'No save yet',
+      resumed: 'Resumed', start: 'Click to start', ended: 'The end', reset: 'From the start'
+    }
+  };
+
   var LANG_KEY = 'zz.lang';
   var SAVE_KEY = 'zz.save';
   var MAX_LINES = 3;          // 对话框能同时显示几行
@@ -30,6 +49,11 @@
 
   /* ---------------- 小工具 ---------------- */
   function $(id) { return document.getElementById(id); }
+
+  function t(key) {
+    var m = T[lang] || T.jp;
+    return m[key] != null ? m[key] : key;
+  }
 
   function toLines(v) {
     if (v == null) return [];
@@ -55,8 +79,8 @@
   function save(quiet) {
     try {
       localStorage.setItem(SAVE_KEY, JSON.stringify({ ch: ch, blk: blk, page: page, t: Date.now() }));
-      if (!quiet) toast('已存档');
-    } catch (e) { if (!quiet) toast('存档失败：浏览器不让写'); }
+      if (!quiet) toast(t('saved'));
+    } catch (e) { if (!quiet) toast(t('saveFail')); }
   }
 
   function readSave() {
@@ -283,7 +307,7 @@
       render();
       return;
     }
-    toast('到这里就结束了');
+    toast(t('ended'));
   }
 
   function back() {
@@ -299,24 +323,35 @@
     history = [];
     ch = 0; blk = 0; page = 0;
     render();
-    toast('从头开始');
+    toast(t('reset'));
   }
 
   function loadSave() {
     var s = readSave();
-    if (!s) { toast('还没有存档'); return; }
+    if (!s) { toast(t('noSave')); return; }
     history = [];
     ch = Math.min(s.ch, data.chapters.length - 1);
     blk = Math.min(s.blk, chapter().blocks.length - 1);
     page = Math.min(s.page || 0, Math.max(pages().length - 1, 0));
     render();
-    toast('已读档');
+    toast(t('loaded'));
+  }
+
+  /* 把按钮/提示的字换成当前语言（都只有假名和英文） */
+  function applyUi() {
+    el.prev.textContent = t('prev');
+    el.next.textContent = t('next');
+    el.saveBtn.textContent = t('save');
+    el.loadBtn.textContent = t('load');
+    el.restartBtn.textContent = t('restart');
+    el.hint.textContent = t('hint');
   }
 
   function toggleLang() {
     lang = lang === 'jp' ? 'en' : 'jp';
     try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
     el.lang.textContent = lang === 'jp' ? 'JP' : 'EN';
+    applyUi();
     history = [];
     render();
     toast(lang === 'jp' ? '日本語' : 'English');
@@ -334,10 +369,16 @@
     el.toast = $('toast');
     el.pos = $('pos');
     el.prev = $('prev');
+    el.next = $('next');
+    el.saveBtn = $('save');
+    el.loadBtn = $('load');
+    el.restartBtn = $('restart');
+    el.hint = $('hint');
     el.chTitle = $('chapterTitle');
     el.lang = $('lang');
 
     el.lang.textContent = lang === 'jp' ? 'JP' : 'EN';
+    applyUi();
 
     el.box.addEventListener('click', advance);
     $('next').addEventListener('click', advance);
@@ -361,8 +402,8 @@
       page = Math.min(s.page || 0, Math.max(pages().length - 1, 0));
     }
     render();
-    if (s) toast('接上次的进度');
-    else toast('点对话框继续');
+    if (s) toast(t('resumed'));
+    else toast(t('start'));
   }
 
   // 数据可能直接内联（作者工具预览时用），否则去 fetch
