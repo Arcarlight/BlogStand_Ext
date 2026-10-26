@@ -148,6 +148,21 @@ const ok = (c, m) => {
     console.log('  头像：' + porSrc);
     ok(/assets\/img\/portrait\/0403-normal\.png/.test(porSrc), '头像指向 0403-normal.png');
     ok(fs.existsSync(path.join(REPO, porSrc)), '文件真的下载到了本地');
+    /* 编辑器页在 /tools/ 下，头像路径必须补前导斜杠，否则会裂图（踩过） */
+    let imgWait = 0;
+    while (imgWait < 6000) {
+      const loadedImg = await ev(`(function(){ var im = document.getElementById('porImg'); return !!im && im.complete; })()`);
+      if (loadedImg) break;
+      await sleep(300);
+      imgWait += 300;
+    }
+    const imgInfo = JSON.parse(await ev(`JSON.stringify((function(){
+      var im = document.getElementById('porImg');
+      return { src: im ? im.getAttribute('src') : '', w: im ? im.naturalWidth : 0 };
+    })())`));
+    console.log('  编辑器里的头像：' + JSON.stringify(imgInfo));
+    ok(imgInfo.w > 0, '编辑器里头像真的渲染出来了（' + imgInfo.w + 'px 宽）');
+    ok(String(imgInfo.src).charAt(0) === '/', '头像是从站点根开始的绝对路径');
 
     console.log('\n== 存盘 ==');
     await ev(`document.getElementById('btnSave').click()`);

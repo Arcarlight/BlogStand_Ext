@@ -181,9 +181,13 @@
 
   function fieldsetPortrait(b) {
     var p = b.portrait || {};
+    /* 编辑页在 /tools/ 下，数据里的路径是相对站点根的（assets/…），
+       不补斜杠会解析成 /tools/assets/… → 404（头像裂图就是这么来的） */
+    var src = p.src || '';
+    if (src && !/^(https?:|\/)/.test(src)) src = '/' + src;
     return '<fieldset><legend>头像</legend>' +
       '<div class="row">' +
-        '<img class="portrait-preview" id="porImg" src="' + esc(p.src || '') + '" alt="">' +
+        '<img class="portrait-preview" id="porImg" src="' + esc(src) + '" alt="">' +
         '<button id="btnDex">选宝可梦…</button>' +
         '<button id="btnPorClear">不用头像</button>' +
         '<label style="flex:0 0 auto">位置</label>' +
