@@ -99,8 +99,10 @@
       return;
     }
     el.portrait.className = 'vn-portrait on' + (p.side === 'right' ? ' side-right' : '');
-    if (b.speaker && b.speaker.color) el.portrait.style.background = b.speaker.color;
     el.portrait.innerHTML = '<img src="' + p.src + '" alt="">';
+    // 头像底色的规则：说话人有 color 就用它，否则透明（露出头像本身的底色）
+    var img = el.portrait.querySelector('img');
+    if (img) img.style.background = (b.speaker && b.speaker.color) || 'transparent';
   }
 
   function clearBox() { boxLines = []; el.text.innerHTML = ''; }
