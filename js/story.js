@@ -157,9 +157,9 @@
       if (prefix) {
         var nm = document.createElement('span');
         nm.className = 'nm';
-        nm.textContent = prefix;
+        nm.textContent = name;            // 名字染色
         el.text.appendChild(nm);
-        el.text.appendChild(document.createTextNode(line + suffix));
+        el.text.appendChild(document.createTextNode('「' + line + suffix));
       } else {
         el.text.appendChild(document.createTextNode(prefix + line + suffix));
       }
@@ -191,8 +191,9 @@
       if (firstPage && li === 0 && nameJp) {
         var nm = document.createElement('span');
         nm.className = 'nm';
-        nm.textContent = nameJp + '「';
+        nm.textContent = nameJp;          // 只染名字
         out.appendChild(nm);
+        out.appendChild(document.createTextNode('「'));   // 引号是普通文字色
         prefix = nameJp + '「';
       }
 
