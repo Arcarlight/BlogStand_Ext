@@ -394,6 +394,15 @@
       else if (e.key.toLowerCase() === 's' && !e.ctrlKey && !e.metaKey) { save(false); }
     });
 
+    // 预览时由编辑器指定「从哪一段开始」，优先于存档
+    if (window.__START__ && typeof window.__START__.blk === 'number') {
+      ch = Math.min(window.__START__.ch || 0, data.chapters.length - 1);
+      blk = Math.min(Math.max(window.__START__.blk, 0), data.chapters[ch].blocks.length - 1);
+      page = 0;
+      render();
+      return;
+    }
+
     // 有存档就接上
     var s = readSave();
     if (s) {

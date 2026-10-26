@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>不可思议小说 · 作者工具</title>
+<link rel="stylesheet" href="/tools/editor.css">
+</head>
+<body>
+
+<header class="bar">
+  <h1>不可思议小说 · 作者工具</h1>
+  <button id="btnSave" class="primary">保存 (Ctrl+S)</button>
+  <span id="status" class="status"></span>
+  <span class="grow"></span>
+  <label class="chk"><input type="checkbox" id="autoPreview" checked> 自动刷新预览</label>
+  <button id="btnPreview">刷新预览</button>
+</header>
+
+<main class="layout">
+  <!-- 左：章节 + 段落 -->
+  <aside class="pane left">
+    <div class="pane-head">
+      <b>章节</b>
+      <button id="btnAddChapter" class="mini">＋</button>
+    </div>
+    <ul id="chapterList" class="list"></ul>
+
+    <div class="pane-head" style="margin-top:10px">
+      <b>段落</b>
+      <span class="grow"></span>
+      <button id="btnAddBlock" class="mini">＋</button>
+    </div>
+    <ul id="blockList" class="list blocks"></ul>
+  </aside>
+
+  <!-- 中：编辑表单 -->
+  <section class="pane mid">
+    <div id="form"></div>
+  </section>
+
+  <!-- 右：预览 -->
+  <section class="pane right">
+    <iframe id="preview" src="/preview"></iframe>
+  </section>
+</main>
+
+<!-- 图鉴弹窗 -->
+<div id="dexModal" class="modal" hidden>
+  <div class="modal-box">
+    <div class="modal-head">
+      <b>宝可梦图鉴</b>
+      <input id="dexSearch" placeholder="输入名字或编号（日文假名 / 英文 / 403）">
+      <button id="dexClose" class="mini">✕</button>
+    </div>
+    <div class="modal-body">
+      <ul id="dexList" class="dex"></ul>
+      <div id="dexEmotions" class="emotions">
+        <p class="hint">先选一只宝可梦。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="/tools/editor.js"></script>
+</body>
+</html>
